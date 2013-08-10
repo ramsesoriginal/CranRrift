@@ -9,8 +9,14 @@ public class ChainController : MonoBehaviour {
 	public float chainLinkSize;
 	public float chainSpeed;
 	
+	public CraneMagnet craneMagnetPrefab;
+	public Vector3 craneMagnetOffset; // offset to bottom of last chain link
+	
 	ChainLink topChainLink;
+	CraneMagnet craneMagnet;
 	float currentPos; // [0, chainLinkSize], controllable through inputs
+	
+	
 	
 	void Reset() {
 		chainLinkSize = 2.0f; // standard capsule height
@@ -52,11 +58,14 @@ public class ChainController : MonoBehaviour {
 	}
 	
 	void AddChainLink() {
+		var addMagnet = true;
+		
 		var pos = transform.position;
 		var rot = transform.rotation;
 		if (topChainLink) {
 			pos = topChainLink.transform.position + topChainLink.transform.up * chainLinkSize;
 			rot = topChainLink.transform.rotation;
+			addMagnet = false;
 		}
 		var cl = (ChainLink) Instantiate(chainLinkPrefab, pos, rot);
 		
@@ -67,6 +76,8 @@ public class ChainController : MonoBehaviour {
 		}
 		
 		topChainLink = cl;
+		
+		if (addMagnet) AddMagnet();
 	}
 	
 	void RemoveChainLink() {
@@ -79,6 +90,24 @@ public class ChainController : MonoBehaviour {
 		
 		Destroy(topChainLink.gameObject);
 		topChainLink = topChainLink.next;
+	}
+	
+	void AddMagnet() {
+		if (!topChainLink || craneMagnet) return;
+		
+		var pos = topChainLink.transform.position - topChainLink.transform.up * chainLinkSize * 0.5f;
+		pos += topChainLink.transform.TransformDirection(craneMagnetOffset);
+		var rot = topChainLink.transform.rotation;
+		craneMagnet = (CraneMagnet) Instantiate(craneMagnetPrefab, pos, rot);
+		
+		var j = craneMagnet.GetComponent<ConfigurableJoint>();
+		j.connectedBody = topChainLink.rigidbody;
+	}
+	
+	void RemoveMagnet() {
+		if (!craneMagnet) return;
+		
+		Destroy(craneMagnet.gameObject);
 	}
 	
 }

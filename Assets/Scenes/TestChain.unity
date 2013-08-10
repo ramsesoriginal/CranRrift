@@ -166,10 +166,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputUp: 0
   inputDown: 0
-  enableTestInput: 1
+  enableTestInput: 0
   chainLinkPrefab: {fileID: 11400000, guid: 5dbcf6364cad2384d894b1a5c0a0e0be, type: 2}
   chainLinkSize: 2
   chainSpeed: 5
+  craneMagnetPrefab: {fileID: 11400000, guid: 8de1adb48399a2747bf963fdb35dbd8a, type: 2}
+  craneMagnetOffset: {x: 0, y: -.5, z: 0}
 --- !u!4 &673895001
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +430,11 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 621535aa9f7672b4c81b626206816ee5, type: 2}
+      propertyPath: craneMagnetPrefab
+      value: 
+      objectReference: {fileID: 11400000, guid: 8de1adb48399a2747bf963fdb35dbd8a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 621535aa9f7672b4c81b626206816ee5, type: 2}
   m_RootGameObject: {fileID: 673894999}
