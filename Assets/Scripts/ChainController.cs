@@ -28,6 +28,9 @@ public class ChainController : MonoBehaviour {
 			inputUp = Input.GetKey(KeyCode.Q);
 			inputDown = Input.GetKey(KeyCode.A);
 		}
+		if (craneMagnet) {
+			craneMagnet.enableTestInput = enableTestInput;
+		}
 	}
 	
 	void FixedUpdate() {
@@ -86,6 +89,8 @@ public class ChainController : MonoBehaviour {
 		if (topChainLink.next) {
 			var j = topChainLink.next.GetComponent<ConfigurableJoint>();
 			j.connectedBody = null;
+		} else {
+			RemoveMagnet();
 		}
 		
 		Destroy(topChainLink.gameObject);
